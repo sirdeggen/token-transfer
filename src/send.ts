@@ -107,7 +107,8 @@ export async function spendToken(recipient : string, tokensToSend : number) {
       lockingScript: changeLockingScript.toHex(),
       outputDescription: 'token change',
       tags: ['file', 'token'],
-      customInstructions: changeCustomInstructions
+      customInstructions: changeCustomInstructions,
+      basket
     }],
     options: {
       noSend: true, // return a signableTransaction, don't try to broadcast yet.

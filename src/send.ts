@@ -175,4 +175,32 @@ export async function spendToken(recipient : string, tokensToSend : number) {
 // Default '02ec9b58db65002d0971c3abe2eef3403d23602d8de2af51445d84e1b64c11a646'
 // Goose profile: '028656505ffad07975a839a4cdf13c71318e5e7dd0e98db485137f249d9afddeff'
 // set the below to your recipient's public key, say your own alt profile on Metanet Mobile or whatever.
-spendToken('028656505ffad07975a839a4cdf13c71318e5e7dd0e98db485137f249d9afddeff', 123).then(console.log)
+
+// Get recipient public key and amount from command line arguments
+const recipientPubKey = process.argv[2]
+const amountStr = process.argv[3]
+
+if (!recipientPubKey || !amountStr) {
+  console.error('❌ Error: Please provide both recipient public key and amount as arguments')
+  console.log('Usage: npx tsx src/send.ts <recipient_public_key> <amount>')
+  console.log('Example: npx tsx src/send.ts 028656505ffad07975a839a4cdf13c71318e5e7dd0e98db485137f249d9afddeff 123')
+  process.exit(1)
+}
+
+// Validate public key format (should be 66 characters hex string starting with 02 or 03)
+if (!/^0[23][0-9a-fA-F]{64}$/.test(recipientPubKey)) {
+  console.error('❌ Error: Invalid public key format')
+  console.log('Public key should be a 66-character hex string starting with 02 or 03')
+  process.exit(1)
+}
+
+// Validate and parse amount
+const amount = parseInt(amountStr, 10)
+if (isNaN(amount) || amount <= 0) {
+  console.error('❌ Error: Invalid amount. Please provide a positive integer')
+  console.log('Example: npx tsx src/send.ts 028656505ffad07975a839a4cdf13c71318e5e7dd0e98db485137f249d9afddeff 123')
+  process.exit(1)
+}
+
+console.log(`🎯 Sending ${amount} tokens to: ${recipientPubKey}`)
+spendToken(recipientPubKey, amount).then(console.log)

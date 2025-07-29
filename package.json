@@ -1,0 +1,16 @@
+{
+  "name": "maks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@bsv/message-box-client": "^1.1.10",
+    "@bsv/sdk": "^1.6.20"
+  }
+}

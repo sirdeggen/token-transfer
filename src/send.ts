@@ -140,7 +140,11 @@ export async function spendToken(recipient : string, tokensToSend : number) {
     },
   })
 
-  console.log('✅ Token sent in tx:', spent)
+  console.log('✅ Token sent in tx:', spent.txid)
+
+  const txSent = Transaction.fromBEEF(spent.tx!, spent.txid!)
+  const broadcast = await txSent.broadcast()
+  console.log(txSent.toHex())
 
   // Lookup a service which accepts this type of token
   
@@ -153,7 +157,7 @@ export async function spendToken(recipient : string, tokensToSend : number) {
   })
 
   const notify = await mb.sendMessage({
-    recipient: recipient,
+    recipient,
     messageBox: 'token_inbox',
     body: JSON.stringify({
       tx: spent.tx,
@@ -161,13 +165,10 @@ export async function spendToken(recipient : string, tokensToSend : number) {
       txid: spent.txid,
       customInstructions: paymentCustomInstructions,
     })
-  })
+  }, 'https://message-box-us-1.bsvb.tech')
   
   console.log('📬 MessageBox delivery status:', notify.status)
   console.log('Key ID: ', keyID)
-
-  const tt = Transaction.fromBEEF(spent.tx!, spent.txid!)
-  console.log(tt.toHexEF())
 
   return spent
 }

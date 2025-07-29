@@ -50,4 +50,6 @@ const basket = config.basket
 
   console.log('[2] Internalized token.', internalizeResult)
 
+  await mb.acknowledgeMessage({ messageIds: [msg.messageId] })
+
 })()

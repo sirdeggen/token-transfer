@@ -1,4 +1,4 @@
-# Maks - BSV Token CLI Tools
+# BSV Token CLI Tools
 
 A command-line interface for minting, sending, receiving, and checking balances of BSV tokens using the BSV SDK.
 
